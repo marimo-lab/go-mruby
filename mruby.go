@@ -3,7 +3,7 @@ package mruby
 import "unsafe"
 
 // #cgo CFLAGS: -Ivendor/mruby/include
-// #cgo LDFLAGS: libmruby.a -lm
+// #cgo LDFLAGS: libmruby.a -lm -Wl,--allow-multiple-definition
 // #include <stdlib.h>
 // #include "gomruby.h"
 import "C"
@@ -311,6 +311,11 @@ func (m *Mrb) TrueValue() *MrbValue {
 // Returns a Value for a fixed number.
 func (m *Mrb) FixnumValue(v int) *MrbValue {
 	return newValue(m.state, C.mrb_fixnum_value(C.mrb_int(v)))
+}
+
+// Returns a Value for a floating point number.
+func (m *Mrb) FloatValue(v float64) *MrbValue {
+	return newValue(m.state, C.mrb_float_value(m.state, C.mrb_float(v)))
 }
 
 // Returns a Value for a string.

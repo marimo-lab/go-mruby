@@ -16,6 +16,7 @@ type Value interface {
 }
 
 type Int int
+type Float float64
 type NilType [0]byte
 type String string
 
@@ -228,6 +229,10 @@ func (v *MrbValue) String() string {
 
 func (i Int) MrbValue(m *Mrb) *MrbValue {
 	return m.FixnumValue(int(i))
+}
+
+func (f Float) MrbValue(m *Mrb) *MrbValue {
+	return m.FloatValue(float64(f))
 }
 
 func (NilType) MrbValue(m *Mrb) *MrbValue {

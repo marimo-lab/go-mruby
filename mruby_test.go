@@ -162,6 +162,16 @@ func TestMrbFixnumValue(t *testing.T) {
 	}
 }
 
+func TestMrbFloatalue(t *testing.T) {
+	mrb := NewMrb()
+	defer mrb.Close()
+
+	value := mrb.FloatValue(1.23)
+	if value.Type() != TypeFloat {
+		t.Fatalf("should be float")
+	}
+}
+
 func TestMrbFullGC(t *testing.T) {
 	mrb := NewMrb()
 	defer mrb.Close()
