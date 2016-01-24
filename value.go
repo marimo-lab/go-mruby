@@ -19,6 +19,7 @@ type Int int
 type Float float64
 type NilType [0]byte
 type String string
+type Cptr uintptr
 
 // Nil is a constant that can be used as a Nil Value
 var Nil NilType
@@ -223,6 +224,13 @@ func (v *MrbValue) String() string {
 	return result
 }
 
+// Cptr returns the Cptr value of this object if the Type() is
+// TypeCptr. Calling this with any other type will result in undefined
+// behavior.
+func (v *MrbValue) Cptr() unsafe.Pointer {
+	return unsafe.Pointer(C._go_mrb_cptr(v.value))
+}
+
 //-------------------------------------------------------------------
 // Native Go types implementing the Value interface
 //-------------------------------------------------------------------
@@ -241,6 +249,10 @@ func (NilType) MrbValue(m *Mrb) *MrbValue {
 
 func (s String) MrbValue(m *Mrb) *MrbValue {
 	return m.StringValue(string(s))
+}
+
+func (p Cptr) MrbValue(m *Mrb) *MrbValue {
+	return m.CptrValue(unsafe.Pointer(p))
 }
 
 //-------------------------------------------------------------------

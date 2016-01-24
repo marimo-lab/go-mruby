@@ -176,4 +176,8 @@ static inline enum mrb_vtype _go_mrb_type(mrb_value o) {
     return mrb_type(o);
 }
 
+static inline void* _go_mrb_cptr(mrb_value o) {
+    return mrb_cptr(o);
+}
+
 #endif

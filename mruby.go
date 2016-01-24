@@ -324,3 +324,8 @@ func (m *Mrb) StringValue(s string) *MrbValue {
 	defer C.free(unsafe.Pointer(cs))
 	return newValue(m.state, C.mrb_str_new_cstr(m.state, cs))
 }
+
+// Returns a Value for a Cptr.
+func (m *Mrb) CptrValue(p unsafe.Pointer) *MrbValue {
+	return newValue(m.state, C.mrb_cptr_value(m.state, p))
+}
